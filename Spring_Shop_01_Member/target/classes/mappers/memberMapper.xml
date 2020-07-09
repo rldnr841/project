@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+  <sql id="base">
+    from tbl_member where email = #{email}
+  </sql>
+  <insert id="join" parameterType="MemberVO">
+    insert into tbl_member(email,pwd,nickname)
+    values(#{email},#{pwd},#{nickname})
+  </insert>
+  <select id="check" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(email) <include refid="base"/>
+  </select>
+  <select id="login" parameterType="MemberVO" resultType="MemberVO">
+    select * <include refid="base"/> and pwd = #{pwd} 
+  </select>
+  <select id="mlist" resultType="MemberVO">
+   select * from tbl_member
+  </select>
+  <select id="mInfo" parameterType="java.lang.String" resultType="MemberVO">
+   select * <include refid="base"/>
+  </select>
+  <update id="modify" parameterType="MemberVO">
+  update tbl_member set pwd = #{pwd}, nickname = #{nickname} where email = #{email}
+  </update>
+  <delete id="resign" parameterType="java.lang.String">
+    delete <include refid="base"/>
+  </delete>
+</mapper>
